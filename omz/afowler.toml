@@ -1,0 +1,93 @@
+#
+# OMF2: omf2 prompt choose afowler
+# OMZ:  ZSH_THEME=afowler
+#
+
+### OMZ
+# source: https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/afowler.zsh-theme
+#
+# PROMPT='%m %B%F{blue}:: %b%F{green}%3~ $(hg_prompt_info)$(git_prompt_info)%B%(!.%F{red}.%F{blue})»%f%b '
+# RPS1='%(?..%F{red}%? ↵%f)'
+
+# ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
+# ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
+
+# ZSH_THEME_HG_PROMPT_PREFIX="%{$fg[magenta]%}hg:‹%{$fg[yellow]%}"
+# ZSH_THEME_HG_PROMPT_SUFFIX="%{$fg[magenta]%}› %{$reset_color%}"
+# ZSH_THEME_HG_PROMPT_DIRTY=" %{$fg[red]%}✗"
+# ZSH_THEME_HG_PROMPT_CLEAN=""
+###
+
+add_newline = false
+
+format = """${python}${hostname}${directory}${custom.git_prefix}${git_branch}${git_commit}${custom.git_status_dirty}${custom.git_suffix}${character}"""
+right_format = "$status"
+
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout=2000
+
+[line_break]
+disabled = true
+
+[python]
+format = '[(\($virtualenv\) )]($style)'
+style = 'white'
+
+[hostname]
+format = "$hostname [::]($style) "
+ssh_only = false
+style = "blue"
+
+[directory]
+style = "green"
+truncation_length = 3
+truncate_to_repo = false
+truncation_symbol = ""
+
+[git_branch]
+format = '[$branch]($style)'
+style = 'yellow'
+
+[git_commit]
+format = '[( $hash$tag)]($style)'
+only_detached = true
+style = 'yellow'
+
+[custom.git_prefix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "‹"
+style = "yellow"
+format = "[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_suffix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "›"
+style = "yellow"
+format = "[$symbol]($style) "
+shell = ["sh"]
+
+[custom.git_status_clean]
+when = 'test -z "$(git status --porcelain 2>/dev/null)"'
+symbol = ""
+style = "blue"
+format="[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_status_dirty]
+when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+symbol = "*"
+style = "yellow"
+format="[$symbol]($style)"
+shell = ["sh"]
+
+[character]
+format = '$symbol '
+success_symbol = "[»](blue)"
+error_symbol = "[»](blue)"
+
+[status]
+disabled = false
+format = "[($status $symbol)]($style)"
+symbol = "↵"
+style = "red"

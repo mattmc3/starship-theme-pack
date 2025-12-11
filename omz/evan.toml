@@ -1,0 +1,38 @@
+#
+# OMF2: omf2 prompt choose evan
+# OMZ:  ZSH_THEME=evan
+#
+
+### OMZ
+# source: https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/evan.zsh-theme
+#
+# Evan's minimal prompt
+# PROMPT='%m :: %2~ %B»%b '
+###
+
+add_newline = false
+
+format = """${python}${hostname}${directory}${character}"""
+right_format = ""
+
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout=2000
+
+[line_break]
+disabled = true
+
+[hostname]
+format = "[$hostname ::]($style) "
+style = ""
+ssh_only = false
+
+[character]
+format = '$symbol '
+success_symbol = "[»](bold)"
+error_symbol = "[»](bold)"
+
+[directory]
+truncation_length = 2
+truncate_to_repo = false
+truncation_symbol = ""
+style = ""

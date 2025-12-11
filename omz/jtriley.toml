@@ -1,0 +1,53 @@
+#
+# OMF2: omf2 prompt choose jtriley
+# OMZ:  ZSH_THEME=jtriley
+#
+
+### OMZ
+# source: https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/jtriley.zsh-theme
+#
+#PROMPT="%{$fg_bold[cyan]%}%T%{$fg_bold[green]%} %{$fg_bold[white]%}%n%{$fg[magenta]%}@%{$fg_bold[white]%}%m %{$fg_bold[green]%}%d
+#%{$fg_bold[yellow]%}%% %{$reset_color%}"
+###
+
+add_newline = false
+
+format = """${python}${time}${username}[@](bold purple)${hostname} ${directory}
+${character}"""
+right_format = ""
+
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout=2000
+
+[line_break]
+disabled = true
+
+[time]
+disabled = false
+format = "[$time]($style) "
+time_format = "%H:%M"
+style = "cyan"
+
+[username]
+disabled = false
+style_user = "bold white"
+style_root = "bold red"
+show_always = true
+format = "[$user]($style)"
+
+[hostname]
+format = "[$hostname]($style)"
+style = "bold white"
+ssh_only = false
+
+[character]
+format = '$symbol '
+success_symbol = "[%](bold yellow)"
+error_symbol = "[%](bold red)"
+
+[directory]
+truncation_length = 0
+home_symbol = "~"
+truncate_to_repo = false
+style = "green"
+truncation_symbol = ""

@@ -1,0 +1,78 @@
+#
+# OMF2: omf2 prompt choose robbyrussell
+# OMZ:  ZSH_THEME=robbyrussell
+#
+
+### OMZ
+# source: https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/robbyrussell.zsh-theme
+#
+# PROMPT="%(?:%{$fg_bold[green]%}%1{➜%} :%{$fg_bold[red]%}%1{➜%} ) %{$fg[cyan]%}%c%{$reset_color%}"
+# PROMPT+=' $(git_prompt_info)'
+#
+# ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
+# ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+# ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}%1{✗%}"
+# ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+###
+
+add_newline = false
+
+format = """${python}${character}${directory}${custom.git_prefix}${git_branch}${git_commit}${custom.git_suffix}${custom.git_status_dirty} """
+right_format = ""
+
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout=2000
+
+[line_break]
+disabled = true
+
+[character]
+format = '$symbol  '
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
+
+[python]
+format = '[(\($virtualenv\) )]($style)'
+style = 'white'
+
+[directory]
+style = "bold cyan"
+truncation_length = 0
+truncation_symbol = ""
+
+[git_branch]
+format = '[$branch]($style)'
+style = 'red'
+
+[git_commit]
+format = '[( $hash$tag)]($style)'
+only_detached = true
+style = 'red'
+
+[custom.git_prefix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "git:\\("
+style = "bold blue"
+format = "[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_suffix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "\\)"
+style = "bold blue"
+format = "[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_status_clean]
+when = 'test -z "$(git status --porcelain 2>/dev/null)"'
+symbol = ""
+style = "blue"
+format=" [$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_status_dirty]
+when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+symbol = "✗"
+style = "yellow"
+format=" [$symbol]($style)"
+shell = ["sh"]
