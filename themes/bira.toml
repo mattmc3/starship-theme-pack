@@ -1,0 +1,136 @@
+#
+# OMZ:  ZSH_THEME=bira
+#
+
+### OMZ
+# source: https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/bira.zsh-theme
+#
+# local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
+# local user_host="%B%(!.%{$fg[red]%}.%{$fg[green]%})%n@%m%{$reset_color%} "
+# local user_symbol='%(!.#.$)'
+# local current_dir="%B%{$fg[blue]%}%~ %{$reset_color%}"
+# local conda_prompt='$(conda_prompt_info)'
+
+# local vcs_branch='$(git_prompt_info)$(hg_prompt_info)'
+# local rvm_ruby='$(ruby_prompt_info)'
+# local venv_prompt='$(virtualenv_prompt_info)'
+# if [[ "${plugins[@]}" =~ 'kube-ps1' ]]; then
+#     local kube_prompt='$(kube_ps1)'
+# else
+#     local kube_prompt=''
+# fi
+
+# ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
+
+# PROMPT="╭─${conda_prompt}${user_host}${current_dir}${rvm_ruby}${vcs_branch}${venv_prompt}${kube_prompt}
+# ╰─%B${user_symbol}%b "
+# RPROMPT="%B${return_code}%b"
+
+# ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
+# ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
+# ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}●%{$fg[yellow]%}"
+# ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[yellow]%}"
+
+# ZSH_THEME_HG_PROMPT_PREFIX="$ZSH_THEME_GIT_PROMPT_PREFIX"
+# ZSH_THEME_HG_PROMPT_SUFFIX="$ZSH_THEME_GIT_PROMPT_SUFFIX"
+# ZSH_THEME_HG_PROMPT_DIRTY="$ZSH_THEME_GIT_PROMPT_DIRTY"
+# ZSH_THEME_HG_PROMPT_CLEAN="$ZSH_THEME_GIT_PROMPT_CLEAN"
+
+# ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
+# ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
+
+# ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%{$fg[green]%}‹"
+# ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="› %{$reset_color%}"
+# ZSH_THEME_VIRTUALENV_PREFIX="$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX"
+# ZSH_THEME_VIRTUALENV_SUFFIX="$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX"
+###
+
+add_newline = false
+
+format = """╭─\
+${conda}\
+${username}\
+${hostname}\
+${directory}\
+${ruby}\
+${custom.git_prefix}${git_branch}${git_commit}${custom.git_status_dirty}${custom.git_suffix}\
+${python}\
+${kubernetes}\
+${line_break}\
+╰─${character}\
+"""
+right_format = "${status}"
+
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout=2000
+
+[username]
+style_user = 'green bold'
+style_root = 'red bold'
+format = '[${user}@]($style)'
+disabled = false
+show_always = true
+
+[hostname]
+disabled = false
+ssh_only = false
+format = '[$ssh_symbol$hostname]($style) '
+style = 'green bold'
+
+[character]
+format = '$symbol '
+success_symbol = '[\$](bold white)'
+error_symbol = '[\$](bold red)'
+
+[python]
+format = '[(\($virtualenv\) )]($style)'
+style = 'white'
+
+[directory]
+style = "bold blue"
+truncation_length = 0
+truncate_to_repo = false
+truncation_symbol = ""
+
+[git_branch]
+format = '[$branch]($style)'
+style = 'yellow'
+
+[git_commit]
+format = '[( $hash$tag)]($style)'
+only_detached = true
+style = 'yellow'
+
+[custom.git_prefix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "‹"
+style = "bold yellow"
+format = "[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_suffix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "›"
+style = "bold yellow"
+format = "[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_status_clean]
+when = 'test -z "$(git status --porcelain 2>/dev/null)"'
+symbol = ""
+style = "blue"
+format=" [$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_status_dirty]
+when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+symbol = "●"
+style = "red"
+format="[$symbol]($style)"
+shell = ["sh"]
+
+[status]
+disabled = false
+format = "[($status $symbol)]($style)"
+symbol = "↵"
+style = "red"
