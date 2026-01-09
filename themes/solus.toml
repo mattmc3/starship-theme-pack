@@ -1,0 +1,151 @@
+#
+# OMZ:  ZSH_THEME=solus
+#
+
+### OMZ
+# source: https://gist.github.com/cloudnull/4cc7890acaae6cb809e811e09e9eaade
+#
+# if [[ $UID -eq 0 ]]; then
+#     local user_symbol='%F{196}#%f'
+# else
+#     local user_symbol='%F{214}$%f'
+# fi
+
+# local return_code="%(?..%F{196}%? ↵%f)"
+# local user_host='%F{81}%n%f%F{245}@%F{206}%m%f '
+# local current_dir='%F{245}%~ %b%f'
+# local git_branch='$(git_prompt_info)'
+# local rvm_ruby='$(ruby_prompt_info)'
+# local venv_prompt='$(virtualenv_prompt_info)'
+
+# ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
+
+# PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}
+# ╰─➤ ${venv_prompt} ${user_symbol} "
+
+# RPROMPT="${return_code}"
+
+# ZSH_THEME_GIT_PROMPT_PREFIX="%F{220}% ‹"
+# ZSH_THEME_GIT_PROMPT_SUFFIX="›%f"
+
+# ZSH_THEME_RUBY_PROMPT_PREFIX="%F{154}% ("
+# ZSH_THEME_RUBY_PROMPT_SUFFIX=")%f"
+
+# ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%F{202}% ("
+# ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX=")%f"
+# ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
+# ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
+###
+
+add_newline = false
+
+format = """╭─\
+${conda}\
+${username}${custom.at}${hostname}\
+${directory}\
+${ruby}\
+${custom.git_prefix}${git_branch}${git_commit}${custom.git_suffix}\
+${python}\
+${kubernetes}\
+${line_break}\
+╰─➤ ${custom.root_character}${custom.user_character}\
+"""
+right_format = "${status}"
+
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout=2000
+
+# Set the color palette
+palette = "solus"
+
+# Define custom colors
+[palettes.solus]
+grey = '245'
+cyan = '81'
+red = '196'
+pink = '206'
+bright_yellow = '154'
+orange = '214'
+light_orange = '220'
+dark_orange = '202'
+
+[username]
+style_user = 'cyan'
+style_root = 'cyan'
+format = '[${user}]($style)'
+disabled = false
+show_always = true
+
+[hostname]
+disabled = false
+ssh_only = false
+format = '[$ssh_symbol$hostname]($style) '
+style = 'pink'
+
+[python]
+format = '[(\($virtualenv\) )]($style)'
+style = 'white'
+
+[directory]
+style = "grey"
+truncation_length = 0
+truncate_to_repo = false
+truncation_symbol = ""
+
+[git_branch]
+format = '[$branch]($style)'
+style = 'yellow'
+
+[git_commit]
+format = '[( $hash$tag)]($style)'
+only_detached = true
+style = 'yellow'
+
+[custom.git_prefix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "‹"
+style = "yellow"
+format = "[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_suffix]
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+symbol = "›"
+style = "yellow"
+format = "[$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_status_clean]
+when = 'test -z "$(git status --porcelain 2>/dev/null)"'
+symbol = ""
+style = "blue"
+format=" [$symbol]($style)"
+shell = ["sh"]
+
+[custom.git_status_dirty]
+when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+symbol = "●"
+style = "red"
+format="[$symbol]($style)"
+shell = ["sh"]
+
+[status]
+disabled = false
+format = "[($status $symbol)]($style)"
+symbol = "↵"
+style = "red"
+
+[custom.at]
+format = '[@]($style)'
+when = 'true'
+style = 'grey'
+
+[custom.user_character]
+format = '[\$]($style) '
+when = 'whoami | grep -vq root'
+style = 'orange'
+
+[custom.root_character]
+format = '[#]($style) '
+when = 'whoami | grep -q root'
+style = 'red'
